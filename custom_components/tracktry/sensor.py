@@ -65,13 +65,14 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
 
     session = async_get_clientsession(hass)
 
-    instance = TrackTrySensor(name)
-
-    async_add_entities([instance], True)
-
     list_instance = TrackItemListSensor(name)
 
     async_add_entities([list_instance], True)
+
+    instance = TrackTrySensor(name, list_instance)
+
+    async_add_entities([instance], True)
+
 
     async def handle_add_tracking(call):
         """Call when a user adds a new TrackTry tracking from Home Assistant."""
@@ -109,12 +110,13 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
 class TrackTrySensor(Entity):
     """Representation of a TrackTry sensor."""
 
-    def __init__(self, name):
+    def __init__(self, name, list_sensor):
         """Initialize the sensor."""
         self._attributes = {
             'hidden': False,"debug":"test"}
         self._name = name
         self._state = None
+        self._list_sensor = list_sensor
 
     @property
     def name(self):
@@ -169,7 +171,7 @@ class TrackTrySensor(Entity):
 
         return response.json()["items"][0]
     def get_trackings(self):
-        to_track = [{"code":"323212505100043382188030", "postalCode":"2360 "}]
+        to_track = self._list_sensor.state()
         self.trackings = []
         for obj in to_track:
             self.trackings.append(self.fetch_tracking_object(obj["code"], obj["postalCode"]))
