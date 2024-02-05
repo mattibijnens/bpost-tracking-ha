@@ -171,9 +171,8 @@ class TrackTrySensor(Entity):
         return response.json()["items"][0]
     def get_trackings(self):
         _LOGGER.error("TTRsstr = " + str(self._list_sensor.state))
-        _LOGGER.error("TTR s = " + self._list_sensor.state())
-
-        to_track = self._list_sensor.state()
+        
+        to_track = self._list_sensor.state
         self.trackings = []
         for obj in to_track:
             self.trackings.append(self.fetch_tracking_object(obj["code"], obj["postalCode"]))
