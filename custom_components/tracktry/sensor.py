@@ -135,9 +135,9 @@ class TrackTrySensor(Entity):
         """Icon to use in the frontend."""
         return ICON
 
-    #def get_codes(self):
-    #    state = self.hass.states.get("sensor.whatever")
-
+    def get_codes(self):
+        state = self.hass.states.get("input_text.tracking_codes")
+        return state
 
 
     async def async_added_to_hass(self):
@@ -179,6 +179,7 @@ class TrackTrySensor(Entity):
 
         for track in self.trackings:
             _LOGGER.error(track)
+            _LOGGER.error(self.get_codes())
             status = track['activeStep']['name']
             name = track['sender']['name'],
             last_update_time = 'Never Updated'
