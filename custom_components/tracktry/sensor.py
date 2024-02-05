@@ -165,7 +165,7 @@ class TrackTrySensor(Entity):
         to_track = [{"code":"323212505100043382188030", "postalCode":"2360"}]
         self.trackings = []
         for obj in to_track:
-            self.trackings.append(self.fetch_tracking_object(obj["code"], obj["postalCode"]))
+            self.trackings.append(await self.fetch_tracking_object(obj["code"], obj["postalCode"]))
 
 
     @Throttle(MIN_TIME_BETWEEN_UPDATES)
@@ -179,8 +179,8 @@ class TrackTrySensor(Entity):
         not_delivered_count = 0
 
         for track in self.trackings:
-            _LOGGER.error(track)
-            _LOGGER.error(self.get_codes())
+            _LOGGER.error("i = " + str(track))
+            _LOGGER.error("codes = "+ str(self.get_codes()))
             status = track['activeStep']['name']
             name = track['sender']['name'],
             last_update_time = 'Never Updated'
