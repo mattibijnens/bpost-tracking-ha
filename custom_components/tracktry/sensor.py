@@ -178,10 +178,7 @@ class TrackTrySensor(Entity):
     @Throttle(MIN_TIME_BETWEEN_UPDATES)
     async def async_update(self, **kwargs):
         """Get the latest data from the TrackTry API."""
-        _LOGGER.error("pre await")
-        _LOGGER.error("codes = " + str(self.get_codes()))
         result = await self.hass.async_add_executor_job(self.get_trackings)
-        _LOGGER.error("post await")
         status_to_ignore = {"delivered"}
         status_counts = {}
         trackings = []
@@ -189,7 +186,6 @@ class TrackTrySensor(Entity):
 
         for track in self.trackings:
             _LOGGER.error("i = " + str(track))
-            _LOGGER.error("codes = " + str(self.get_codes()))
             status = track['activeStep']['name']
             name = track['sender']['name'],
             last_update_time = 'Never Updated'
@@ -214,9 +210,6 @@ class TrackTrySensor(Entity):
             ATTR_ATTRIBUTION: ATTRIBUTION,
             **status_counts,
             ATTR_TRACKINGS: trackings,
-            "arrayke":[],
-            "objectke":{"data":"data"},
-            "arraymetobj":[{"data":"data"}],
             'hidden': False
         }
 
@@ -228,7 +221,6 @@ class TrackItemListSensor(Entity):
         """Initialize the sensor."""
         self._attributes = {}
         self._name = name
-        self._state = '[{"code":"323212505100043382188030", "postalCode":"2360 "}]'
 
     @property
     def name(self):
