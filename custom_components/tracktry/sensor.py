@@ -69,6 +69,10 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
 
     async_add_entities([instance], True)
 
+    list_instance = TrackItemListSensor(name)
+
+    async_add_entities([list_instance], True)
+
     async def handle_add_tracking(call):
         """Call when a user adds a new TrackTry tracking from Home Assistant."""
         title = call.data.get(CONF_TITLE)
@@ -100,6 +104,7 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
         handle_remove_tracking,
         schema=REMOVE_TRACKING_SERVICE_SCHEMA,
     )
+
 
 class TrackTrySensor(Entity):
     """Representation of a TrackTry sensor."""
@@ -212,3 +217,36 @@ class TrackTrySensor(Entity):
         }
 
         self._state = len(self.trackings)
+class TrackItemListSensor(Entity):
+    """Representation of a TrackTry sensor."""
+
+    def __init__(self, name):
+        """Initialize the sensor."""
+        self._attributes = {}
+        self._name = name
+        self._state = None
+
+    @property
+    def name(self):
+        """Return the name of the sensor."""
+        return self._name
+
+    @property
+    def state(self):
+        """Return the state of the sensor."""
+        return self._state
+
+    @property
+    def unit_of_measurement(self):
+        """Return the unit of measurement of this entity, if any."""
+        return "packages"
+
+    @property
+    def device_state_attributes(self):
+        """Return attributes for the sensor."""
+        return {}
+
+    @property
+    def icon(self):
+        """Icon to use in the frontend."""
+        return ICON
