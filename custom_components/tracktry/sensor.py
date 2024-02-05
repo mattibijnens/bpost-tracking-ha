@@ -155,7 +155,7 @@ class TrackTrySensor(Entity):
 
     async def get_trackings(self):
         to_track = [{"code":323212505100043382188030, "postalCode":2360}]
-        trackings = []
+        self.trackings = []
         for obj in to_track:
             self.trackings.append(self.fetch_tracking_object(obj["code"], obj["postalCode"]))
 
@@ -171,7 +171,7 @@ class TrackTrySensor(Entity):
         not_delivered_count = 0
 
         for track in self.trackings:
-            status = track['status'].lower()
+            status = track['activeStep']['name']
             name = (
                 track['tracking_number'] if track['title'] is None else track['title']
             )
