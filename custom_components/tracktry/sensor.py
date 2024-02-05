@@ -223,6 +223,7 @@ class TrackItemListSensor(Entity):
         """Initialize the sensor."""
         self._attributes = {}
         self._name = name
+        self._state = '[{"code":"323212505100043382188030", "postalCode":"2360 "}]'
 
     @property
     def name(self):
