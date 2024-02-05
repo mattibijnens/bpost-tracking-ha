@@ -112,8 +112,7 @@ class TrackTrySensor(Entity):
 
     def __init__(self, name, list_sensor):
         """Initialize the sensor."""
-        self._attributes = {
-            'hidden': False,"debug":"test"}
+        self._attributes = {'hidden': False,"debug":"test"}
         self._name = name
         self._state = None
         self._list_sensor = list_sensor
@@ -171,6 +170,9 @@ class TrackTrySensor(Entity):
 
         return response.json()["items"][0]
     def get_trackings(self):
+        _LOGGER.error("TTR = " + self._list_sensor)
+        _LOGGER.error("TTRs = " + self._list_sensor.state())
+
         to_track = self._list_sensor.state()
         self.trackings = []
         for obj in to_track:
