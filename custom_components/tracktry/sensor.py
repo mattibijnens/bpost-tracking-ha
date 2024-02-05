@@ -198,15 +198,17 @@ class TrackTrySensor(Entity):
                 }
             )
 
+            _LOGGER.error("trackings = " + str(trackings))
             if status not in status_to_ignore:
                 not_delivered_count += 1
             else:
                 _LOGGER.debug("Ignoring %s as it has status: %s", name, status)
 
         self._attributes = {
+            "matti":"bijnens",
             ATTR_ATTRIBUTION: ATTRIBUTION,
             **status_counts,
             ATTR_TRACKINGS: trackings,
         }
 
-        self._state = not_delivered_count
+        self._state = len(self.trackings)
