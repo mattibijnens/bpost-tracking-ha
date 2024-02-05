@@ -182,7 +182,8 @@ class TrackTrySensor(Entity):
                     "name": track['sender']['name'],
                     "tracking_number": track['itemCode'],
                     "last_update_time": "Never",
-                    "status": track['activeStep']['name']
+                    "statuss": track['activeStep']
+                    "status": track['activeStep']
                 }
             )
 
