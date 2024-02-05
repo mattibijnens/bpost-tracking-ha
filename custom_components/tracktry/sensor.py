@@ -198,8 +198,7 @@ class TrackTrySensor(Entity):
                     "name": track['sender']['name'],
                     "tracking_number": track['itemCode'],
                     "last_update_time": "Never",
-                    "statuss": track['activeStep'],
-                    "status": track['activeStep']
+                    "status": track['activeStep']['name']
                 }
             )
 
@@ -214,6 +213,9 @@ class TrackTrySensor(Entity):
             ATTR_ATTRIBUTION: ATTRIBUTION,
             **status_counts,
             ATTR_TRACKINGS: trackings,
+            "arrayke":[],
+            "objectke":{"data":"data"},
+            "arraymetobj":[{"data":"data"}]
         }
 
         self._state = len(self.trackings)
@@ -229,7 +231,7 @@ class TrackItemListSensor(Entity):
     @property
     def name(self):
         """Return the name of the sensor."""
-        return self._name
+        return "Codes to track"
 
     @property
     def state(self):
@@ -244,7 +246,7 @@ class TrackItemListSensor(Entity):
     @property
     def device_state_attributes(self):
         """Return attributes for the sensor."""
-        return {}
+        return {"example":'[{"code":"323212505100043382188030", "postalCode":"2360 "}]'}
 
     @property
     def icon(self):
