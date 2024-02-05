@@ -63,11 +63,8 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
     name = config[CONF_NAME]
 
     session = async_get_clientsession(hass)
-    tracktry = Tracking(hass.loop, session, apikey)
 
-    await tracktry.get_trackings()
-
-    instance = TrackTrySensor(tracktry, name)
+    instance = TrackTrySensor(name)
 
     async_add_entities([instance], True)
 
@@ -78,7 +75,7 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
         carrier_code = call.data[CONF_CARRIER_CODE]
         tracking_number = call.data[CONF_TRACKING_NUMBER]
 
-        await tracktry.add_package_tracking(tracking_number, carrier_code, title, comment)
+        #await tracktry.add_package_tracking(tracking_number, carrier_code, title, comment)
         async_dispatcher_send(hass, UPDATE_TOPIC)
 
     hass.services.async_register(
@@ -93,7 +90,7 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
         carrier_code = call.data[CONF_CARRIER_CODE]
         tracking_number = call.data[CONF_TRACKING_NUMBER]
 
-        await tracktry.remove_package_tracking(carrier_code, tracking_number)
+        #await tracktry.remove_package_tracking(carrier_code, tracking_number)
         async_dispatcher_send(hass, UPDATE_TOPIC)
 
     hass.services.async_register(
@@ -106,12 +103,11 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
 class TrackTrySensor(Entity):
     """Representation of a TrackTry sensor."""
 
-    def __init__(self, tracktry, name):
+    def __init__(self, name):
         """Initialize the sensor."""
         self._attributes = {}
         self._name = name
         self._state = None
-        self.tracktry = tracktry
 
     @property
     def name(self):
