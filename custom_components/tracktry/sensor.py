@@ -188,6 +188,9 @@ class TrackTrySensor(Entity):
 
         for track in self.trackings:
             _LOGGER.error("i = " + str(track))
+            if 'error' in track and track["error"] == "NO_DATA_FOUND":
+                trackings.append({"not found"})
+                continue
             status = track['activeStep']['name']
             name = track['sender']['name'],
             last_update_time = 'Never Updated'
