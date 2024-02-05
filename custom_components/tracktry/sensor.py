@@ -65,7 +65,7 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
 
     session = async_get_clientsession(hass)
 
-    instance = TrackTrySensor(name)
+    instance = TrackTrySensor(name, hass)
 
     async_add_entities([instance], True)
 
@@ -135,6 +135,11 @@ class TrackTrySensor(Entity):
         """Icon to use in the frontend."""
         return ICON
 
+    #def get_codes(self):
+    #    state = self.hass.states.get("sensor.whatever")
+
+
+
     async def async_added_to_hass(self):
         """Register callbacks."""
         self.async_on_remove(
@@ -173,6 +178,7 @@ class TrackTrySensor(Entity):
         not_delivered_count = 0
 
         for track in self.trackings:
+            _LOGGER.error(track)
             status = track['activeStep']['name']
             name = track['sender']['name'],
             last_update_time = 'Never Updated'
