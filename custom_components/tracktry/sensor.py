@@ -162,7 +162,7 @@ class TrackTrySensor(Entity):
 
         return response.json()["items"][0]
     async def get_trackings(self):
-        to_track = [{"code":"323212505100043382188030", "postalCode":"2360"}]
+        to_track = [{"code":"323212505100043382188030", "postalCode":"2360 "}]
         self.trackings = []
         for obj in to_track:
             self.trackings.append(await self.fetch_tracking_object(obj["code"], obj["postalCode"]))
