@@ -173,7 +173,7 @@ class TrackTrySensor(Entity):
     async def async_update(self, **kwargs):
         """Get the latest data from the TrackTry API."""
         _LOGGER.error("pre await")
-        self.get_trackings()
+        result = await self.hass.async_add_executor_job(self.get_trackings)
         _LOGGER.error("post await")
         status_to_ignore = {"delivered"}
         status_counts = {}
