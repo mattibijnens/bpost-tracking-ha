@@ -1,4 +1,4 @@
-# TrackTry-Custom Component
+# BPost Tracking
  A component to integrate TrackTry into Home Assistant
  
  You will need to get an API key from tracktry.com
