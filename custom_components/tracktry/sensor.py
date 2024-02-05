@@ -65,7 +65,7 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
 
     session = async_get_clientsession(hass)
 
-    instance = TrackTrySensor(name, hass)
+    instance = TrackTrySensor(name)
 
     async_add_entities([instance], True)
 
