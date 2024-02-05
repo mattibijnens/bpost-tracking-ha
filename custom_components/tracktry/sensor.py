@@ -180,7 +180,7 @@ class TrackTrySensor(Entity):
 
         for track in self.trackings:
             _LOGGER.error("i = " + str(track))
-            _LOGGER.error("codes = "+ str(self.get_codes()))
+            _LOGGER.error("codes = " + str(self.get_codes()))
             status = track['activeStep']['name']
             name = track['sender']['name'],
             last_update_time = 'Never Updated'
