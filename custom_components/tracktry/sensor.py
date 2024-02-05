@@ -111,7 +111,8 @@ class TrackTrySensor(Entity):
 
     def __init__(self, name):
         """Initialize the sensor."""
-        self._attributes = {}
+        self._attributes = {
+            'hidden': False,"debug":"test"}
         self._name = name
         self._state = None
 
@@ -215,7 +216,8 @@ class TrackTrySensor(Entity):
             ATTR_TRACKINGS: trackings,
             "arrayke":[],
             "objectke":{"data":"data"},
-            "arraymetobj":[{"data":"data"}]
+            "arraymetobj":[{"data":"data"}],
+            'hidden': False
         }
 
         self._state = len(self.trackings)
@@ -246,7 +248,10 @@ class TrackItemListSensor(Entity):
     @property
     def device_state_attributes(self):
         """Return attributes for the sensor."""
-        return {"example":'[{"code":"323212505100043382188030", "postalCode":"2360 "}]'}
+        return {
+            'hidden': False,
+            "example":'[{"code":"323212505100043382188030", "postalCode":"2360 "}]'
+        }
 
     @property
     def icon(self):
