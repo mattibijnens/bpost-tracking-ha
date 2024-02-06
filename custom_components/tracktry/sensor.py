@@ -229,7 +229,17 @@ class TrackItemListSensor(TextEntity):
         _LOGGER.error("TrackItemListSensor setup")
         """Initialize the sensor."""
         self._name = name
+        self._native_max = 513
+        self._native_value = '[{"code":"323212505100043382188030", "postalCode":"2360 "}]'
         self._state = '[{"code":"323212505100043382188030", "postalCode":"2360 "}]'
+
+    @property
+    def native_max(self):
+        return 500
+
+    @property
+    def native_value(self):
+        return self._state
 
     @property
     def name(self):
