@@ -24,7 +24,7 @@ ATTR_TRACKINGS = "trackings"
 
 CONF_NEW_JSON = "new_json_array"
 
-DEFAULT_NAME = "BPost"
+DEFAULT_NAME = "bpost"
 UPDATE_TOPIC = f"{DOMAIN}_update"
 
 ICON = "mdi:package-variant-closed"
