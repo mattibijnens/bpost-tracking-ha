@@ -205,7 +205,7 @@ class BPostSensor(Entity):
                 _LOGGER.debug("Ignoring %s as it has status: %s", name, status)
 
         self._attributes = {
-            "matti":"bijnens",
+            "matti":"bijnen s",
             ATTR_ATTRIBUTION: ATTRIBUTION,
             **status_counts,
             ATTR_TRACKINGS: trackings,
