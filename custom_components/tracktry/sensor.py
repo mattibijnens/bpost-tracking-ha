@@ -226,7 +226,6 @@ class TrackItemListSensor(TextEntity):
 
     def __init__(self, name):
         """Initialize the sensor."""
-        self._attributes = {}
         self._name = name
         self._state = '[{"code":"323212505100043382188030", "postalCode":"2360 "}]'
 
