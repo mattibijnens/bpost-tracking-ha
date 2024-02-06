@@ -69,6 +69,7 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
     list_instance = TrackItemListSensor(name)
 
     async_add_entities([list_instance], True)
+    _LOGGER.error("TrackItemListSensor registered")
 
     instance = TrackTrySensor(name, list_instance)
 
@@ -225,6 +226,7 @@ class TrackItemListSensor(TextEntity):
     """Representation of a TrackTry sensor."""
 
     def __init__(self, name):
+        _LOGGER.error("TrackItemListSensor setup")
         """Initialize the sensor."""
         self._name = name
         self._state = '[{"code":"323212505100043382188030", "postalCode":"2360 "}]'
