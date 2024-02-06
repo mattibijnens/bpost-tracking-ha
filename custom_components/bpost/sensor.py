@@ -87,7 +87,7 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
     #     carrier_code = call.data[CONF_CARRIER_CODE]
     #     tracking_number = call.data[CONF_TRACKING_NUMBER]
     #
-    #     #await tracktry.remove_package_tracking(carrier_code, tracking_number)
+    #     #await bpost.remove_package_tracking(carrier_code, tracking_number)
     #     async_dispatcher_send(hass, UPDATE_TOPIC)
     #
     # hass.services.async_register(
@@ -171,7 +171,7 @@ class BPostSensor(Entity):
 
     @Throttle(MIN_TIME_BETWEEN_UPDATES)
     async def async_update(self, **kwargs):
-        """Get the latest data from the TrackTry API."""
+        """Get the latest data from the BPost API."""
         result = await self.hass.async_add_executor_job(self.get_trackings)
         status_to_ignore = {"delivered"}
         status_counts = {}

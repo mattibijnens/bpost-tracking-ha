@@ -3,7 +3,7 @@
   "config_flow": false,
   "dependencies": [],
   "documentation": "https://github.com/user/my_component/",
-  "domain": "BPost",
+  "domain": "bpost",
   "name": "Bpost Tracking",
   "requirements": [],
   "version": "1.0"
