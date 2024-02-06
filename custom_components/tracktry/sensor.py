@@ -12,6 +12,7 @@ from homeassistant.helpers.aiohttp_client import async_get_clientsession
 import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.dispatcher import async_dispatcher_send
 from homeassistant.helpers.entity import Entity
+from homeassistant.components.text import TextEntity
 from homeassistant.util import Throttle
 
 from .const import DOMAIN
@@ -35,21 +36,21 @@ ICON = "mdi:package-variant-closed"
 
 MIN_TIME_BETWEEN_UPDATES = timedelta(minutes=30)
 
-SERVICE_ADD_TRACKING = "add_tracking"
-SERVICE_REMOVE_TRACKING = "remove_tracking"
+# SERVICE_ADD_TRACKING = "add_tracking"
+# SERVICE_REMOVE_TRACKING = "remove_tracking"
 
-ADD_TRACKING_SERVICE_SCHEMA = vol.Schema(
-    {
-        vol.Required(CONF_TRACKING_NUMBER): cv.string,
-        vol.Required(CONF_CARRIER_CODE): cv.string,
-        vol.Optional(CONF_TITLE): cv.string,
-        vol.Optional(CONF_COMMENT): cv.string
-    }
-)
-
-REMOVE_TRACKING_SERVICE_SCHEMA = vol.Schema(
-    {vol.Required(CONF_CARRIER_CODE): cv.string, vol.Required(CONF_TRACKING_NUMBER): cv.string}
-)
+# ADD_TRACKING_SERVICE_SCHEMA = vol.Schema(
+#     {
+#         vol.Required(CONF_TRACKING_NUMBER): cv.string,
+#         vol.Required(CONF_CARRIER_CODE): cv.string,
+#         vol.Optional(CONF_TITLE): cv.string,
+#         vol.Optional(CONF_COMMENT): cv.string
+#     }
+# )
+#
+# REMOVE_TRACKING_SERVICE_SCHEMA = vol.Schema(
+#     {vol.Required(CONF_CARRIER_CODE): cv.string, vol.Required(CONF_TRACKING_NUMBER): cv.string}
+# )
 
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
     {
@@ -74,37 +75,37 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
     async_add_entities([instance], True)
 
 
-    async def handle_add_tracking(call):
-        """Call when a user adds a new TrackTry tracking from Home Assistant."""
-        title = call.data.get(CONF_TITLE)
-        comment = call.data.get(CONF_COMMENT)
-        carrier_code = call.data[CONF_CARRIER_CODE]
-        tracking_number = call.data[CONF_TRACKING_NUMBER]
+    # async def handle_add_tracking(call):
+    #     """Call when a user adds a new TrackTry tracking from Home Assistant."""
+    #     title = call.data.get(CONF_TITLE)
+    #     comment = call.data.get(CONF_COMMENT)
+    #     carrier_code = call.data[CONF_CARRIER_CODE]
+    #     tracking_number = call.data[CONF_TRACKING_NUMBER]
+    #
+    #     #await tracktry.add_package_tracking(tracking_number, carrier_code, title, comment)
+    #     async_dispatcher_send(hass, UPDATE_TOPIC)
+    #
+    # hass.services.async_register(
+    #     DOMAIN,
+    #     SERVICE_ADD_TRACKING,
+    #     handle_add_tracking,
+    #     schema=ADD_TRACKING_SERVICE_SCHEMA,
+    # )
 
-        #await tracktry.add_package_tracking(tracking_number, carrier_code, title, comment)
-        async_dispatcher_send(hass, UPDATE_TOPIC)
-
-    hass.services.async_register(
-        DOMAIN,
-        SERVICE_ADD_TRACKING,
-        handle_add_tracking,
-        schema=ADD_TRACKING_SERVICE_SCHEMA,
-    )
-
-    async def handle_remove_tracking(call):
-        """Call when a user removes an TrackTry tracking from Home Assistant."""
-        carrier_code = call.data[CONF_CARRIER_CODE]
-        tracking_number = call.data[CONF_TRACKING_NUMBER]
-
-        #await tracktry.remove_package_tracking(carrier_code, tracking_number)
-        async_dispatcher_send(hass, UPDATE_TOPIC)
-
-    hass.services.async_register(
-        DOMAIN,
-        SERVICE_REMOVE_TRACKING,
-        handle_remove_tracking,
-        schema=REMOVE_TRACKING_SERVICE_SCHEMA,
-    )
+    # async def handle_remove_tracking(call):
+    #     """Call when a user removes an TrackTry tracking from Home Assistant."""
+    #     carrier_code = call.data[CONF_CARRIER_CODE]
+    #     tracking_number = call.data[CONF_TRACKING_NUMBER]
+    #
+    #     #await tracktry.remove_package_tracking(carrier_code, tracking_number)
+    #     async_dispatcher_send(hass, UPDATE_TOPIC)
+    #
+    # hass.services.async_register(
+    #     DOMAIN,
+    #     SERVICE_REMOVE_TRACKING,
+    #     handle_remove_tracking,
+    #     schema=REMOVE_TRACKING_SERVICE_SCHEMA,
+    # )
 
 
 class TrackTrySensor(Entity):
@@ -220,7 +221,7 @@ class TrackTrySensor(Entity):
         }
 
         self._state = len(self.trackings)
-class TrackItemListSensor(Entity):
+class TrackItemListSensor(TextEntity):
     """Representation of a TrackTry sensor."""
 
     def __init__(self, name):
@@ -233,11 +234,6 @@ class TrackItemListSensor(Entity):
     def name(self):
         """Return the name of the sensor."""
         return "Codes to track"
-
-    @property
-    def state(self):
-        """Return the state of the sensor."""
-        return self._state
 
     @property
     def unit_of_measurement(self):
