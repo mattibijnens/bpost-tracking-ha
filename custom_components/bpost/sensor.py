@@ -188,12 +188,16 @@ class BPostSensor(Entity):
             status = track['activeStep']['name']
             name = track['sender']['name'],
             last_update_time = 'Never Updated'
+            expected_delivery_time = {}
+            if "expectedDeliveryTimeRange" in track:
+                expected_delivery_time = track["expectedDeliveryTimeRange"]
 
             trackings.append(
                 {
                     "name": track['sender']['name'],
                     "tracking_number": track['itemCode'],
                     "last_update_time": "Never",
+                    "expected_delivery_time": expected_delivery_time,
                     "status": track['activeStep']['name']
                 }
             )
