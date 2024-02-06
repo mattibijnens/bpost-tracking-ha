@@ -61,7 +61,6 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
     list_instance = TrackItemListSensor(name)
 
     async_add_entities([list_instance], True)
-    _LOGGER.error("TrackItemListSensor registered")
 
     instance = BPostSensor(name, list_instance)
 
@@ -163,7 +162,6 @@ class BPostSensor(Entity):
             return response_json
         return response_json["items"][0]
     def get_trackings(self):
-        _LOGGER.error("TTRsstr = " + str(self._list_sensor.state))
         
         to_track = json.loads(self._list_sensor.state)
         self.trackings = []
@@ -181,7 +179,6 @@ class BPostSensor(Entity):
         not_delivered_count = 0
 
         for track in self.trackings:
-            _LOGGER.error("i = " + str(track))
             if 'error' in track and track["error"] == "NO_DATA_FOUND":
                 trackings.append({"not found"})
                 continue
@@ -202,7 +199,6 @@ class BPostSensor(Entity):
                 }
             )
 
-            _LOGGER.error("trackings = " + str(trackings))
             if status not in status_to_ignore:
                 not_delivered_count += 1
             else:
@@ -221,7 +217,6 @@ class TrackItemListSensor(TextEntity):
     """Representation of a BPost sensor."""
 
     def __init__(self, name):
-        _LOGGER.error("TrackItemListSensor setup")
         """Initialize the sensor."""
         self._name = name
         self._native_max = 513
