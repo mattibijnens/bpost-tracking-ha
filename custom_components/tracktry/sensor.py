@@ -24,10 +24,7 @@ ATTR_TRACKINGS = "trackings"
 
 BASE = "https://tracktry.com/"
 
-CONF_CARRIER_CODE = "carrier_code"
-CONF_TITLE = "title"
-CONF_COMMENT = "comment"
-CONF_TRACKING_NUMBER = "tracking_number"
+CONF_NEW_JSON = "new_json_array"
 
 DEFAULT_NAME = "tracktry"
 UPDATE_TOPIC = f"{DOMAIN}_update"
@@ -36,17 +33,14 @@ ICON = "mdi:package-variant-closed"
 
 MIN_TIME_BETWEEN_UPDATES = timedelta(minutes=30)
 
-# SERVICE_ADD_TRACKING = "add_tracking"
+SERVICE_ADD_TRACKING = "add_tracking"
 # SERVICE_REMOVE_TRACKING = "remove_tracking"
 
-# ADD_TRACKING_SERVICE_SCHEMA = vol.Schema(
-#     {
-#         vol.Required(CONF_TRACKING_NUMBER): cv.string,
-#         vol.Required(CONF_CARRIER_CODE): cv.string,
-#         vol.Optional(CONF_TITLE): cv.string,
-#         vol.Optional(CONF_COMMENT): cv.string
-#     }
-# )
+ADD_TRACKING_SERVICE_SCHEMA = vol.Schema(
+    {
+        vol.Required(CONF_NEW_JSON): cv.string,
+    }
+)
 #
 # REMOVE_TRACKING_SERVICE_SCHEMA = vol.Schema(
 #     {vol.Required(CONF_CARRIER_CODE): cv.string, vol.Required(CONF_TRACKING_NUMBER): cv.string}
@@ -76,22 +70,19 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
     async_add_entities([instance], True)
 
 
-    # async def handle_add_tracking(call):
-    #     """Call when a user adds a new TrackTry tracking from Home Assistant."""
-    #     title = call.data.get(CONF_TITLE)
-    #     comment = call.data.get(CONF_COMMENT)
-    #     carrier_code = call.data[CONF_CARRIER_CODE]
-    #     tracking_number = call.data[CONF_TRACKING_NUMBER]
-    #
-    #     #await tracktry.add_package_tracking(tracking_number, carrier_code, title, comment)
-    #     async_dispatcher_send(hass, UPDATE_TOPIC)
-    #
-    # hass.services.async_register(
-    #     DOMAIN,
-    #     SERVICE_ADD_TRACKING,
-    #     handle_add_tracking,
-    #     schema=ADD_TRACKING_SERVICE_SCHEMA,
-    # )
+    async def handle_add_tracking(call):
+        """Call when a user adds a new TrackTry tracking from Home Assistant."""
+        new_json = call.data.get(CONF_NEW_JSON)
+
+        list_instance.set_value(new_json)
+        async_dispatcher_send(hass, UPDATE_TOPIC)
+
+    hass.services.async_register(
+        DOMAIN,
+        SERVICE_ADD_TRACKING,
+        handle_add_tracking,
+        schema=ADD_TRACKING_SERVICE_SCHEMA,
+    )
 
     # async def handle_remove_tracking(call):
     #     """Call when a user removes an TrackTry tracking from Home Assistant."""
