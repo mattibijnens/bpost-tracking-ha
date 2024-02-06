@@ -22,11 +22,9 @@ _LOGGER = logging.getLogger(__name__)
 ATTRIBUTION = "Information provided by BPost"
 ATTR_TRACKINGS = "trackings"
 
-BASE = "https://tracktry.com/"
-
 CONF_NEW_JSON = "new_json_array"
 
-DEFAULT_NAME = "tracktry"
+DEFAULT_NAME = "BPost"
 UPDATE_TOPIC = f"{DOMAIN}_update"
 
 ICON = "mdi:package-variant-closed"
@@ -54,7 +52,7 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
 )
 
 async def async_setup_platform(hass, config, async_add_entities, discovery_info=None):
-    """Set up the TrackTry sensor platform."""
+    """Set up the BPost sensor platform."""
     apikey = config[CONF_API_KEY]
     name = config[CONF_NAME]
 
@@ -65,13 +63,13 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
     async_add_entities([list_instance], True)
     _LOGGER.error("TrackItemListSensor registered")
 
-    instance = TrackTrySensor(name, list_instance)
+    instance = BPostSensor(name, list_instance)
 
     async_add_entities([instance], True)
 
 
     async def handle_add_tracking(call):
-        """Call when a user adds a new TrackTry tracking from Home Assistant."""
+        """Call when a user adds a new BPost tracking from Home Assistant."""
         new_json = call.data.get(CONF_NEW_JSON)
 
         list_instance.set_value(new_json)
@@ -100,8 +98,8 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
     # )
 
 
-class TrackTrySensor(Entity):
-    """Representation of a TrackTry sensor."""
+class BPostSensor(Entity):
+    """Representation of a BPost sensor."""
 
     def __init__(self, name, list_sensor):
         """Initialize the sensor."""
@@ -214,7 +212,7 @@ class TrackTrySensor(Entity):
 
         self._state = len(self.trackings)
 class TrackItemListSensor(TextEntity):
-    """Representation of a TrackTry sensor."""
+    """Representation of a BPost sensor."""
 
     def __init__(self, name):
         _LOGGER.error("TrackItemListSensor setup")
@@ -232,6 +230,13 @@ class TrackItemListSensor(TextEntity):
     def native_value(self):
         return self._state
 
+    def set_value(self, value):
+        self._state = value
+        return value
+
+    async def async_set_value(self, value: str):
+        self._state = value
+        return value
     @property
     def name(self):
         """Return the name of the sensor."""
