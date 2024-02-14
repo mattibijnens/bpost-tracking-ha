@@ -183,7 +183,13 @@ class BPostSensor(Entity):
                 trackings.append({"not found"})
                 continue
             status = track['activeStep']['name']
-            name = track['sender']['name'],
+            name = 'Unknown'
+
+            if 'municipality' in track['sender']:
+                name = track['sender']['municipality']
+            if 'name' in track['sender']:
+                name = track['sender']['name']
+
             last_update_time = 'Never Updated'
             expected_delivery_time = {}
             if "expectedDeliveryTimeRange" in track:
@@ -191,7 +197,7 @@ class BPostSensor(Entity):
 
             trackings.append(
                 {
-                    "name": track['sender']['name'],
+                    "name": name,
                     "tracking_number": track['itemCode'],
                     "last_update_time": "Never",
                     "expected_delivery_time": expected_delivery_time,
