@@ -190,6 +190,9 @@ class BPostSensor(Entity):
             if 'name' in track['sender']:
                 name = track['sender']['name']
 
+            if 'amazon' in name.lower():
+                name = "Amazon"
+
             last_update_time = 'Never Updated'
             expected_delivery_time = {}
             if "expectedDeliveryTimeRange" in track:
